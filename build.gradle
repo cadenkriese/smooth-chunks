@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 plugins {
     id 'fabric-loom' version '0.5-SNAPSHOT'
     id 'maven-publish'
@@ -19,6 +21,19 @@ dependencies {
     // Fabric API.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+    // Cloth Config / Autoconfig
+    modApi("me.shedaniel.cloth:config-2:4.8.2") {
+        exclude(group: "net.fabricmc.fabric-api")
+        exclude module: "modmenu"
+    }
+    modApi("me.sargunvohra.mcmods:autoconfig1u:3.2.2") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+    include "me.shedaniel.cloth:config-2:4.8.2"
+    include "me.sargunvohra.mcmods:autoconfig1u:3.2.2"
+
+    modImplementation "io.github.prospector:modmenu:1.14.6+build.31"
+
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
 
@@ -35,6 +50,7 @@ processResources {
 
     from(sourceSets.main.resources.srcDirs) {
         include "fabric.mod.json"
+//        filter(ReplaceTokens, tokens: [version: project.version])
         expand "version": project.version
     }
 
@@ -51,7 +67,7 @@ tasks.withType(JavaCompile) {
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = "sources"
+    getArchiveClassifier().set("sources")
     from sourceSets.main.allSource
 }
 

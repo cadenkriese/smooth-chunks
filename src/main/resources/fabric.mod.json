@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "smooth-chunks",
-  "version": "${version}",
+  "version": "@version@",
   "name": "Smooth Chunks",
   "description": "Smooth chunk load animations.",
   "authors": [
@@ -12,10 +12,14 @@
     "repo": "repo.flogi.cc"
   },
   "license": "MIT",
-  "accessWidener" : "smooth-chunks.accesswidener",
   "icon": "assets/smooth-chunks/icon.png",
   "environment": "client",
+  "accessWidener": "smooth-chunks.accesswidener",
+  "modmenu:clientsideOnly": "true",
   "entrypoints": {
+    "modmenu": [
+      "cc.flogi.dev.smoothchunks.client.config.SmoothChunksModMenu"
+    ],
     "client": [
       "cc.flogi.dev.smoothchunks.client.SmoothChunksClient"
     ],
