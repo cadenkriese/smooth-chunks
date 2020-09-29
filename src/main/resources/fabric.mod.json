@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "smooth-chunks",
+  "version": "${version}",
+  "name": "Smooth Chunks",
+  "description": "Smooth chunk load animations.",
+  "authors": [
+    "flogic"
+  ],
+  "contact": {
+    "website": "flogi.cc",
+    "repo": "repo.flogi.cc"
+  },
+  "license": "MIT",
+  "accessWidener" : "smooth-chunks.accesswidener",
+  "icon": "assets/smooth-chunks/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "cc.flogi.dev.smoothchunks.client.SmoothChunksClient"
+    ],
+    "main": [
+      "cc.flogi.dev.smoothchunks.SmoothChunks"
+    ]
+  },
+  "mixins": [
+    "smooth-chunks.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.9.3+build.207",
+    "fabric": "*",
+    "minecraft": "1.16.3"
+  }
+}
