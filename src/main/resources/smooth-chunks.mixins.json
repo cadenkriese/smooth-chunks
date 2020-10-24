@@ -6,8 +6,7 @@
   "mixins": [],
   "client": [
     "WorldRendererMixin",
-    "ChunkBuilderMixin",
-    "BuiltChunkStorageMixin"
+    "ChunkBuilderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

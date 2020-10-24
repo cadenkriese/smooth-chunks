@@ -30,6 +30,6 @@ public abstract class WorldRendererMixin {
     private void renderLayerInject(RenderLayer renderLayer, MatrixStack matrixStack, double d, double e, double f,
                                    CallbackInfo ci, boolean bl, ObjectListIterator objectListIterator,
                                    WorldRenderer.ChunkInfo chunkInfo2, ChunkBuilder.BuiltChunk builtChunk, VertexBuffer vertexBuffer) {
-        SmoothChunksClient.get().getChunkAnimationHandler().updateChunk((WorldRenderer) (Object) this, chunkInfo2, builtChunk, matrixStack);
+        SmoothChunksClient.get().getChunkAnimationHandler().updateChunk(builtChunk, matrixStack);
     }
 }

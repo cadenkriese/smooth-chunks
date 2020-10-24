@@ -3,9 +3,6 @@ plugins {
     id 'maven-publish'
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
 archivesBaseName = project.archives_base_name
 version = project.mod_version as Object
 group = project.maven_group as Object
@@ -17,6 +14,16 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     // Fabric API.
+    // Make a collection of all api modules we wish to use
+    Set<String> apiModules = [
+            "fabric-api-base"
+    ]
+
+    // Add each module as a dependency
+    apiModules.forEach {
+        modImplementation(fabricApi.module(it, project.fabric_version))
+    }
+
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // Cloth Config / Autoconfig

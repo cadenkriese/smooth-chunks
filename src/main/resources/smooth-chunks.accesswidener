@@ -2,6 +2,3 @@ accessWidener	v1	named
 
 accessible	class	net/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk$RebuildTask
 accessible	class	net/minecraft/client/render/WorldRenderer$ChunkInfo
-accessible  field   net/minecraft/client/render/WorldRenderer visibleChunks I
-accessible  field   net/minecraft/client/render/WorldRenderer frame I
-accessible  field   net/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk rebuildFrame I
