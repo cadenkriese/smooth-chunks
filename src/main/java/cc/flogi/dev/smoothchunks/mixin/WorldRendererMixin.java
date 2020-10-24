@@ -1,6 +1,6 @@
 package cc.flogi.dev.smoothchunks.mixin;
 
-import cc.flogi.dev.smoothchunks.client.SmoothChunksClient;
+import cc.flogi.dev.smoothchunks.client.handler.ChunkAnimationHandler;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;
 import net.minecraft.client.gl.VertexBuffer;
 import net.minecraft.client.render.RenderLayer;
@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
  *
  * Created on 09/25/2020
  */
-@Mixin(WorldRenderer.class)
+@SuppressWarnings("rawtypes") @Mixin(WorldRenderer.class)
 public abstract class WorldRendererMixin {
     @Inject(
             method = "renderLayer",
@@ -30,6 +30,6 @@ public abstract class WorldRendererMixin {
     private void renderLayerInject(RenderLayer renderLayer, MatrixStack matrixStack, double d, double e, double f,
                                    CallbackInfo ci, boolean bl, ObjectListIterator objectListIterator,
                                    WorldRenderer.ChunkInfo chunkInfo2, ChunkBuilder.BuiltChunk builtChunk, VertexBuffer vertexBuffer) {
-        SmoothChunksClient.get().getChunkAnimationHandler().update(builtChunk, matrixStack);
+        ChunkAnimationHandler.get().updateChunk(builtChunk, matrixStack);
     }
 }

@@ -1,15 +1,15 @@
 package cc.flogi.dev.smoothchunks.client.handler;
 
-import cc.flogi.dev.smoothchunks.client.config.LoadAnimation;
+import cc.flogi.dev.smoothchunks.client.SmoothChunksClient;
 import cc.flogi.dev.smoothchunks.client.config.SmoothChunksConfig;
+import cc.flogi.dev.smoothchunks.util.UtilEasing;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.chunk.ChunkBuilder;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.WeakHashMap;
 
 /**
@@ -18,49 +18,52 @@ import java.util.WeakHashMap;
  * Created on 09/27/2020
  */
 public final class ChunkAnimationHandler {
-    private final long DURATION;
-    private final LoadAnimation LOAD_ANIMATION;
-    private final boolean DISABLE_NEARBY;
+    private static final ChunkAnimationHandler instance = new ChunkAnimationHandler();
+    public static ChunkAnimationHandler get() {return instance;}
 
     private final WeakHashMap<ChunkBuilder.BuiltChunk, AnimationController> animations = new WeakHashMap<>();
-    private final List<BlockPos> completedChunks = new ArrayList<>();
 
-    public ChunkAnimationHandler(SmoothChunksConfig config) {
-        DURATION = config.getDuration() * 1000;
-        LOAD_ANIMATION = config.getLoadAnimation();
-        DISABLE_NEARBY = config.isDisableNearby();
+    public void addChunk(ChunkBuilder.BuiltChunk chunk) {
+        animations.put(chunk, new AnimationController(chunk.getOrigin(), System.currentTimeMillis()));
     }
 
-    public void update(ChunkBuilder.BuiltChunk chunk, MatrixStack stack) {
-        if (completedChunks.contains(chunk.getOrigin())) return;
+    public void updateChunk(ChunkBuilder.BuiltChunk chunk, MatrixStack stack) {
+        SmoothChunksConfig config = SmoothChunksClient.get().getConfig();
+
+//        System.out.println(config.getDuration() + " - " + config.getLoadAnimation().name() + " - " + config.isDisableNearby());
 
         AnimationController controller = animations.get(chunk);
+        if (controller == null || MinecraftClient.getInstance().getCameraEntity() == null) return;
 
-        if (controller == null) {
-            controller = new AnimationController(chunk.getOrigin(), System.currentTimeMillis());
-            animations.put(chunk, controller);
+        if (config.isDisableNearby()) {
+            BlockPos cameraPos = MinecraftClient.getInstance().getCameraEntity().getBlockPos();
+            BlockPos chunkPos = chunk.getOrigin();
+
+            if (chunkPos.isWithinDistance(cameraPos, 32)) return;
         }
 
-        double completion = (double) (System.currentTimeMillis() - controller.getStartTime()) / DURATION;
-        completion = Math.min(completion, 1.0);
+        double completion = (double) (System.currentTimeMillis() - controller.getStartTime()) / config.getDuration() / 1000d;
+        completion = UtilEasing.easeOutSine(Math.min(completion, 1.0));
 
-        switch (LOAD_ANIMATION) {
+        int chunkY = controller.getFinalPos().getY();
+
+        switch (config.getLoadAnimation()) {
             default:
+            case DOWNWARD:
+                stack.translate(0, 256 - chunkY - (completion * chunkY), 0);
+                break;
             case UPWARD:
+                stack.translate(0, -chunkY + (completion * chunkY), 0);
+                break;
+            case INWARD:
                 stack.translate(0, (1 - completion) * controller.getFinalPos().getY(), 0);
                 break;
-            case DOWNWARD:
-                stack.translate(0, -(1 - completion) * controller.getFinalPos().getY(), 0);
+            case SCALE:
+                stack.scale((float) completion, (float) completion, (float) completion);
                 break;
-//            case INWARD:
-//                stack.translate(0, (1 - completion) * controller.getFinalPos().getY(), 0);
-//                break;
         }
 
-        if (completion >= 1.0) {
-            completedChunks.add(chunk.getOrigin());
-            animations.remove(chunk);
-        }
+        if (completion >= 1.0) animations.remove(chunk);
     }
 
     @AllArgsConstructor @Data

@@ -1,13 +1,13 @@
 package cc.flogi.dev.smoothchunks.client;
 
 import cc.flogi.dev.smoothchunks.client.config.SmoothChunksConfig;
-import cc.flogi.dev.smoothchunks.client.handler.ChunkAnimationHandler;
 import lombok.Getter;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 
 /**
  * @author Caden Kriese (flogic)
@@ -19,7 +19,6 @@ import net.fabricmc.api.Environment;
     public static SmoothChunksClient get() {return instance;}
 
     @Getter private SmoothChunksConfig config;
-    @Getter private ChunkAnimationHandler chunkAnimationHandler;
 
     @Override public void onInitializeClient() {
         instance = this;
@@ -27,6 +26,6 @@ import net.fabricmc.api.Environment;
         AutoConfig.register(SmoothChunksConfig.class, Toml4jConfigSerializer::new);
         config = AutoConfig.getConfigHolder(SmoothChunksConfig.class).getConfig();
 
-        chunkAnimationHandler = new ChunkAnimationHandler(config);
+
     }
 }
