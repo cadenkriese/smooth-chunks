@@ -1,6 +1,6 @@
 package cc.flogi.dev.smoothchunks.mixin;
 
-import cc.flogi.dev.smoothchunks.client.SmoothChunksClient;
+import cc.flogi.dev.smoothchunks.client.handler.ChunkAnimationHandler;
 import net.minecraft.client.render.chunk.BlockBufferBuilderStorage;
 import net.minecraft.client.render.chunk.ChunkBuilder;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,6 +29,6 @@ public abstract class ChunkBuilderMixin {
             )
     )
     public void onSetOrigin(BlockBufferBuilderStorage buffers, CallbackInfoReturnable<CompletableFuture> cir) {
-        SmoothChunksClient.get().getChunkAnimationHandler().addChunk(field_20839);
+        ChunkAnimationHandler.get().addChunk(field_20839);
     }
 }

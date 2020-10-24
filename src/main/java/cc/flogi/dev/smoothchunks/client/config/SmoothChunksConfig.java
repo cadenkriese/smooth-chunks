@@ -14,13 +14,13 @@ import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.Comment;
 @Config(name = "smooth-chunks") @Config.Gui.Background("minecraft:textures/block/stone.png") @Getter
 public class SmoothChunksConfig implements ConfigData {
     @Comment("Duration of the animation in seconds.")
-    @ConfigEntry.BoundedDiscrete(min = 0, max=10)
-    int duration = 1;
+    @ConfigEntry.BoundedDiscrete(min = 0, max=4)
+    double duration = 1;
 
     @Comment("Type of animation for loading chunks.")
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
-    LoadAnimation loadAnimation = LoadAnimation.DOWNWARD;
+    LoadAnimation loadAnimation = LoadAnimation.UPWARD;
 
     @Comment("Disable animating chunks close to you")
-    boolean disableNearby = false;
+    boolean disableNearby = true;
 }
