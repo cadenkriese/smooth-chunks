@@ -1,5 +1,6 @@
 plugins {
     id 'fabric-loom' version '0.5-SNAPSHOT'
+    id 'io.freefair.lombok' version '5.2.1'
     id 'maven-publish'
 }
 
@@ -14,10 +15,11 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     // Fabric API.
-    // Make a collection of all api modules we wish to use
+    //TODO try this approach to fabric api in the future to avoid unneeded modules.
+    // for some reason it asks for like fabric-biomes and stuff right now.
 //    Set<String> apiModules = [
-//            "fabric-api-base"
-////            "fabric-tool-attribute-api-v1"
+//            "fabric-api-base",
+//            "fabric-registry-sync-v0"
 //    ]
 //
 //    // Add each module as a dependency
@@ -25,26 +27,21 @@ dependencies {
 //        modImplementation(fabricApi.module(it, project.fabric_version))
 //    }
 
+    // Fabric API.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // Cloth Config / Autoconfig
     modImplementation("me.shedaniel.cloth:config-2:4.8.2") {
         exclude(group: "net.fabricmc.fabric-api")
-        exclude module: "modmenu"
+        exclude(module: "modmenu")
     }
     modImplementation("me.sargunvohra.mcmods:autoconfig1u:3.2.2") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    include "me.shedaniel.cloth:config-2:4.8.2"
-    include "me.sargunvohra.mcmods:autoconfig1u:3.2.2"
+    include("me.shedaniel.cloth:config-2:4.8.2")
+    include("me.sargunvohra.mcmods:autoconfig1u:3.2.2")
 
-    modImplementation "io.github.prospector:modmenu:1.14.6+build.31"
-
-    compileOnly 'org.projectlombok:lombok:1.18.12'
-    annotationProcessor 'org.projectlombok:lombok:1.18.12'
-
-    testCompileOnly 'org.projectlombok:lombok:1.18.12'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
+    modImplementation("io.github.prospector:modmenu:1.14.6+build.31")
 }
 
 minecraft {
@@ -81,22 +78,4 @@ jar {
 }
 
 // configure the maven publication
-publishing {
-//    publications {
-//        mavenJava(MavenPublication) {
-//            // add all the jars that should be included when publishing to maven
-//            artifact(remapJar) {
-//                builtBy remapJar
-//            }
-//            artifact(sourcesJar) {
-//                builtBy remapSourcesJar
-//            }
-//        }
-//    }
-
-    // select the repositories you want to publish to
-    repositories {
-        // uncomment to publish to the local maven
-//         mavenLocal()
-    }
-}
+//publishing {}
