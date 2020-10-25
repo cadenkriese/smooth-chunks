@@ -19,9 +19,9 @@ import java.util.WeakHashMap;
  */
 public final class ChunkAnimationHandler {
     private static final ChunkAnimationHandler instance = new ChunkAnimationHandler();
-    public static ChunkAnimationHandler get() {return instance;}
-
     private final WeakHashMap<ChunkBuilder.BuiltChunk, AnimationController> animations = new WeakHashMap<>();
+
+    public static ChunkAnimationHandler get() {return instance;}
 
     public void addChunk(ChunkBuilder.BuiltChunk chunk) {
         animations.put(chunk, new AnimationController(chunk.getOrigin(), System.currentTimeMillis()));
