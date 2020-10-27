@@ -45,7 +45,7 @@ public final class ChunkAnimationHandler {
             }
         }
 
-        animations.put(chunk, new AnimationController(chunk.getOrigin(), direction, System.currentTimeMillis()));
+        animations.putIfAbsent(chunk, new AnimationController(chunk.getOrigin(), direction, System.currentTimeMillis()));
     }
 
     public void updateChunk(ChunkBuilder.BuiltChunk chunk, MatrixStack stack) {
@@ -69,15 +69,15 @@ public final class ChunkAnimationHandler {
         switch (config.getLoadAnimation()) {
             default:
             case DOWNWARD:
-                stack.translate(0, finalPos.getY() - (completion * finalPos.getY()), 0);
+                stack.translate(0, (finalPos.getY() - completion * finalPos.getY()) * config.getTranslationAmount(), 0);
                 break;
             case UPWARD:
-                stack.translate(0, -finalPos.getY() + (completion * finalPos.getY()), 0);
+                stack.translate(0, (-finalPos.getY() + completion * finalPos.getY()) * config.getTranslationAmount(), 0);
                 break;
             case INWARD:
                 if (controller.getDirection() == null) break;
                 Vec3i dirVec = controller.getDirection().getVector();
-                double mod = -(200 - UtilEasing.easeInOutSine(completion) * 200);
+                double mod = -(200 - UtilEasing.easeInOutSine(completion) * 200) * config.getTranslationAmount();
                 stack.translate(dirVec.getX() * mod, 0, dirVec.getZ() * mod);
                 break;
             case SCALE:
