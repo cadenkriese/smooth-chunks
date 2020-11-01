@@ -62,17 +62,17 @@ public final class ChunkAnimationHandler {
         AnimationController controller = animations.get(chunk);
         if (controller == null || MinecraftClient.getInstance().getCameraEntity() == null) return;
 
+        BlockPos finalPos = controller.getFinalPos();
+
         if (config.isDisableNearby()) {
-            BlockPos cameraPos = MinecraftClient.getInstance().getCameraEntity().getBlockPos();
-            BlockPos chunkPos = chunk.getOrigin();
+            Vec3i cameraPos = MinecraftClient.getInstance().getCameraEntity().getBlockPos();
+            Vec3i chunkPos = new Vec3i(finalPos.getX() + 8, cameraPos.getY(), finalPos.getZ() + 8);
 
             if (chunkPos.isWithinDistance(cameraPos, 32)) return;
         }
 
         double completion = (double) (System.currentTimeMillis() - controller.getStartTime()) / config.getDuration() / 1000d;
         completion = UtilEasing.easeOutSine(Math.min(completion, 1.0));
-
-        BlockPos finalPos = controller.getFinalPos();
 
         switch (config.getLoadAnimation()) {
             default:

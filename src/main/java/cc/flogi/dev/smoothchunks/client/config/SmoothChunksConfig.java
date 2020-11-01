@@ -37,7 +37,7 @@ public class SmoothChunksConfig implements ConfigData {
      *
      * @return The translation amount as an int 1 to 10 where higher = more translation.
      */
-    public int getTranslationAmount() {
-        return translationAmount / 5;
+    public double getTranslationAmount() {
+        return (double) translationAmount / 5d;
     }
 }
