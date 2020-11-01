@@ -31,16 +31,16 @@ public final class ChunkAnimationHandler {
 
         if (SmoothChunksClient.get().getConfig().getLoadAnimation() == LoadAnimation.INWARD
                 && MinecraftClient.getInstance().getCameraEntity() != null) {
-            BlockPos dif = chunk.getOrigin().subtract(MinecraftClient.getInstance().getCameraEntity().getBlockPos());
+            BlockPos delta = chunk.getOrigin().subtract(MinecraftClient.getInstance().getCameraEntity().getBlockPos());
 
-            int difX = Math.abs(dif.getX());
-            int difZ = Math.abs(dif.getZ());
+            int dX = Math.abs(delta.getX());
+            int dZ = Math.abs(delta.getZ());
 
-            if (difX > difZ) {
-                if (dif.getX() > 0) direction = Direction.WEST;
+            if (dX > dZ) {
+                if (delta.getX() > 0) direction = Direction.WEST;
                 else direction = Direction.EAST;
             } else {
-                if (dif.getZ() > 0) direction = Direction.NORTH;
+                if (delta.getZ() > 0) direction = Direction.NORTH;
                 else direction = Direction.SOUTH;
             }
         }
@@ -81,6 +81,7 @@ public final class ChunkAnimationHandler {
                 stack.translate(dirVec.getX() * mod, 0, dirVec.getZ() * mod);
                 break;
             case SCALE:
+                //TODO Find a way to scale centered at the middle of the chunk rather than the origin.
                 stack.scale((float) completion, (float) completion, (float) completion);
                 break;
         }

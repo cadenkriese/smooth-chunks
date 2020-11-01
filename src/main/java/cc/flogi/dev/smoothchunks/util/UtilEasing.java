@@ -5,7 +5,7 @@ package cc.flogi.dev.smoothchunks.util;
  *
  * Created on 10/24/2020
  */
-public class UtilEasing {
+public final class UtilEasing {
     private static final double PI = Math.PI;
 
     public static double easeInOutSine(double completion) {

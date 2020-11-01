@@ -28,7 +28,7 @@ public abstract class ChunkBuilderMixin {
                     target = "Ljava/util/Set;forEach(Ljava/util/function/Consumer;)V"
             )
     )
-    public void onSetOrigin(BlockBufferBuilderStorage buffers, CallbackInfoReturnable<CompletableFuture> cir) {
+    public void onChunkUploads(BlockBufferBuilderStorage buffers, CallbackInfoReturnable<CompletableFuture> cir) {
         ChunkAnimationHandler.get().addChunk(field_20839);
     }
 }
