@@ -6,6 +6,7 @@ import cc.flogi.dev.smoothchunks.client.config.SmoothChunksConfig;
 import cc.flogi.dev.smoothchunks.util.UtilEasing;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.chunk.ChunkBuilder;
 import net.minecraft.client.util.math.MatrixStack;
@@ -13,6 +14,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.WeakHashMap;
 
 /**
@@ -23,10 +26,15 @@ import java.util.WeakHashMap;
 public final class ChunkAnimationHandler {
     private static final ChunkAnimationHandler instance = new ChunkAnimationHandler();
     private final WeakHashMap<ChunkBuilder.BuiltChunk, AnimationController> animations = new WeakHashMap<>();
+    @Getter private final List<Vec3i> loadedChunks = new ArrayList<>();
 
     public static ChunkAnimationHandler get() {return instance;}
 
     public void addChunk(ChunkBuilder.BuiltChunk chunk) {
+        Vec3i origin = chunk.getOrigin();
+        if (loadedChunks.contains(origin)) return;
+        loadedChunks.add(origin);
+
         Direction direction = null;
 
         if (SmoothChunksClient.get().getConfig().getLoadAnimation() == LoadAnimation.INWARD

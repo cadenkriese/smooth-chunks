@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [],
   "client": [
-    "ChunkBuilderMixin",
+    "BuiltChunkMixin",
+    "RebuildTaskMixin",
     "WorldRendererMixin"
   ],
   "injectors": {

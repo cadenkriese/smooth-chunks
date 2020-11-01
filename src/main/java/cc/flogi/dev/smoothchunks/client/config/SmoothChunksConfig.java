@@ -13,7 +13,7 @@ import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.Comment;
  */
 @Config(name = "smooth-chunks") @Config.Gui.Background("minecraft:textures/block/stone.png") @Getter
 public class SmoothChunksConfig implements ConfigData {
-    //TODO use localization for comment strings.
+    //TODO use localization for comment strings. (Somehow, not super straightforward bc annotations need const value)
     @Comment("Duration of the animation in seconds.")
     double duration = 1;
 
