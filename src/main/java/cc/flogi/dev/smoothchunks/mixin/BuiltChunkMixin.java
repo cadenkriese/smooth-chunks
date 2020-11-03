@@ -25,4 +25,12 @@ public abstract class BuiltChunkMixin {
     public void onDelete(CallbackInfo ci) {
         ChunkAnimationHandler.get().getLoadedChunks().remove(getOrigin());
     }
+
+    @Inject(
+            method = "rebuild",
+            at = @At(value = "HEAD")
+    )
+    public void onRebuild(CallbackInfo ci) {
+        ChunkAnimationHandler.get().addChunk((ChunkBuilder.BuiltChunk) (Object) this);
+    }
 }

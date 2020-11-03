@@ -6,7 +6,7 @@
   "mixins": [],
   "client": [
     "BuiltChunkMixin",
-    "RebuildTaskMixin",
+    "ChunkBuilderMixin",
     "WorldRendererMixin"
   ],
   "injectors": {

@@ -4,6 +4,7 @@ import cc.flogi.dev.smoothchunks.client.SmoothChunksClient;
 import cc.flogi.dev.smoothchunks.client.config.LoadAnimation;
 import cc.flogi.dev.smoothchunks.client.config.SmoothChunksConfig;
 import cc.flogi.dev.smoothchunks.util.UtilEasing;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -27,7 +28,7 @@ public final class ChunkAnimationHandler {
      */
 
     private static final ChunkAnimationHandler instance = new ChunkAnimationHandler();
-    private final Map<ChunkBuilder.BuiltChunk, AnimationController> animations = new HashMap<>();
+    private final Reference2ReferenceOpenHashMap<ChunkBuilder.BuiltChunk, AnimationController> animations = new Reference2ReferenceOpenHashMap<>();
     @Getter private final Set<Vec3i> loadedChunks = new HashSet<>();
 
     public static ChunkAnimationHandler get() {return instance;}
