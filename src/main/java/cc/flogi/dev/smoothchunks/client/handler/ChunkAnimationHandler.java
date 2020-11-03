@@ -14,9 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.WeakHashMap;
+import java.util.*;
 
 /**
  * @author Caden Kriese (flogic)
@@ -24,9 +22,13 @@ import java.util.WeakHashMap;
  * Created on 09/27/2020
  */
 public final class ChunkAnimationHandler {
+    /*TODO use Reference2ReferenceLinkedHashMap from FastUtil or just inject the AnimationController directly into BuiltChunk.
+     * Need to solve concurrency issue as currently #addChunk is called from both render & worker threads.
+     */
+
     private static final ChunkAnimationHandler instance = new ChunkAnimationHandler();
-    private final WeakHashMap<ChunkBuilder.BuiltChunk, AnimationController> animations = new WeakHashMap<>();
-    @Getter private final List<Vec3i> loadedChunks = new ArrayList<>();
+    private final Map<ChunkBuilder.BuiltChunk, AnimationController> animations = new HashMap<>();
+    @Getter private final Set<Vec3i> loadedChunks = new HashSet<>();
 
     public static ChunkAnimationHandler get() {return instance;}
 
@@ -64,12 +66,9 @@ public final class ChunkAnimationHandler {
 
         BlockPos finalPos = controller.getFinalPos();
 
-        if (config.isDisableNearby()) {
-            Vec3i cameraPos = MinecraftClient.getInstance().getCameraEntity().getBlockPos();
-            Vec3i chunkPos = new Vec3i(finalPos.getX() + 8, cameraPos.getY(), finalPos.getZ() + 8);
+        if (config.isDisableNearby() && (finalPos.getX()*finalPos.getX() + finalPos.getZ()*finalPos.getZ()) < 32*32)
+            return;
 
-            if (chunkPos.isWithinDistance(cameraPos, 32)) return;
-        }
 
         double completion = (double) (System.currentTimeMillis() - controller.getStartTime()) / config.getDuration() / 1000d;
         completion = UtilEasing.easeOutSine(Math.min(completion, 1.0));

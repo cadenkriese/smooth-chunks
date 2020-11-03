@@ -31,17 +31,17 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // Cloth Config / Autoconfig
-    modImplementation("me.shedaniel.cloth:config-2:4.8.2") {
+    modImplementation("me.shedaniel.cloth:config-2:${project.cloth_version}") {
         exclude(group: "net.fabricmc.fabric-api")
         exclude(module: "modmenu")
     }
-    modImplementation("me.sargunvohra.mcmods:autoconfig1u:3.2.2") {
+    modImplementation("me.sargunvohra.mcmods:autoconfig1u:${project.autoconfig_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    include("me.shedaniel.cloth:config-2:4.8.2")
-    include("me.sargunvohra.mcmods:autoconfig1u:3.2.2")
+    include("me.shedaniel.cloth:config-2:${project.cloth_version}")
+    include("me.sargunvohra.mcmods:autoconfig1u:${project.autoconfig_version}")
 
-    modImplementation("io.github.prospector:modmenu:1.14.6+build.31")
+    modImplementation("io.github.prospector:modmenu:${project.modmenu_version}")
 }
 
 minecraft {
