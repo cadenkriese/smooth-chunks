@@ -31,6 +31,6 @@ public abstract class BuiltChunkMixin {
             at = @At(value = "HEAD")
     )
     public void onRebuild(CallbackInfo ci) {
-        ChunkAnimationHandler.get().addChunk((ChunkBuilder.BuiltChunk) (Object) this);
+//        ChunkAnimationHandler.get().addChunk((ChunkBuilder.BuiltChunk) (Object) this);
     }
 }
