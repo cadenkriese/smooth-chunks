@@ -14,7 +14,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Caden Kriese (flogic)
@@ -30,7 +33,9 @@ public final class ChunkAnimationHandler {
     private final Map<ChunkBuilder.BuiltChunk, AnimationController> animations = new HashMap<>();
     @Getter private final Set<Vec3i> loadedChunks = new HashSet<>();
 
-    public static ChunkAnimationHandler get() {return instance;}
+    public static ChunkAnimationHandler get() {
+        return instance;
+    }
 
     public void addChunk(ChunkBuilder.BuiltChunk chunk) {
         Vec3i origin = chunk.getOrigin();
@@ -66,9 +71,11 @@ public final class ChunkAnimationHandler {
 
         BlockPos finalPos = controller.getFinalPos();
 
-        if (config.isDisableNearby() && (finalPos.getX()*finalPos.getX() + finalPos.getZ()*finalPos.getZ()) < 32*32)
-            return;
-
+        if (config.isDisableNearby()) {
+            double dX = finalPos.getX() - MinecraftClient.getInstance().getCameraEntity().getPos().getX();
+            double dZ = finalPos.getZ() - MinecraftClient.getInstance().getCameraEntity().getPos().getZ();
+            if (dX * dX + dZ * dZ < 32 * 32) return;
+        }
 
         double completion = (double) (System.currentTimeMillis() - controller.getStartTime()) / config.getDuration() / 1000d;
         completion = UtilEasing.easeOutSine(Math.min(completion, 1.0));
