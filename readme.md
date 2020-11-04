@@ -12,4 +12,22 @@
 </p>
 
 <h1 align="center">Smooth Chunks</h1>
-<p align="center">Chunk loading in minecraft can be very jagged when they appear out of nowhere. With this mod, you can configure a nice animation for how chunks load in to your world.</p>
+<p align="center">Chunk loading in Minecraft can be very jagged when they appear out of nowhere. With this mod, you can configure a nice animation for how chunks load in to your world.</p>
+
+## Animations
+
+### Upward
+![Gif of upward loading](media/showcase-gifs/upward.gif)
+
+### Downward
+![Gif of upward loading](media/showcase-gifs/downward.gif)
+
+### Inward
+![Gif of upward loading](media/showcase-gifs/inward.gif)
+
+### Scale
+![Gif of upward loading](media/showcase-gifs/scale.gif)
+
+## Incompatibilities
+
+Unfortunately the mod is incompatible with Sodium and OptiFine/OptiFabric at this time. I'd like to add support for them eventually though. I also assume that the mod is incompatible with many other rendering focused mods such as Canvas, though I haven't tested it.
