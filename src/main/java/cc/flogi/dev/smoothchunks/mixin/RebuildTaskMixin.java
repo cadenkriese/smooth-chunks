@@ -1,6 +1,7 @@
 package cc.flogi.dev.smoothchunks.mixin;
 
 import cc.flogi.dev.smoothchunks.client.handler.ChunkAnimationHandler;
+import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.chunk.BlockBufferBuilderStorage;
 import net.minecraft.client.render.chunk.ChunkBuilder;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
  * Created on 10/07/2020
  */
 @SuppressWarnings("rawtypes") @Mixin(ChunkBuilder.BuiltChunk.RebuildTask.class)
-public abstract class ChunkBuilderMixin {
+public abstract class RebuildTaskMixin {
     //Parent class
     @SuppressWarnings("ShadowTarget") @Shadow private ChunkBuilder.BuiltChunk field_20839;
 
@@ -28,7 +29,7 @@ public abstract class ChunkBuilderMixin {
                     target = "Ljava/util/Set;forEach(Ljava/util/function/Consumer;)V"
             )
     )
-    public void onSetOrigin(BlockBufferBuilderStorage buffers, CallbackInfoReturnable<CompletableFuture> cir) {
+    public void onChunkUploads(BlockBufferBuilderStorage buffers, CallbackInfoReturnable<CompletableFuture> cir) {
         ChunkAnimationHandler.get().addChunk(field_20839);
     }
 }

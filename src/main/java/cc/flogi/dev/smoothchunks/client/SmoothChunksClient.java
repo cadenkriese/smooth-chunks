@@ -7,7 +7,6 @@ import me.sargunvohra.mcmods.autoconfig1u.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 
 /**
  * @author Caden Kriese (flogic)
@@ -16,16 +15,14 @@ import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
  */
 @Environment(EnvType.CLIENT) public class SmoothChunksClient implements ClientModInitializer {
     private static SmoothChunksClient instance;
-    public static SmoothChunksClient get() {return instance;}
-
     @Getter private SmoothChunksConfig config;
+
+    public static SmoothChunksClient get() {return instance;}
 
     @Override public void onInitializeClient() {
         instance = this;
 
         AutoConfig.register(SmoothChunksConfig.class, Toml4jConfigSerializer::new);
         config = AutoConfig.getConfigHolder(SmoothChunksConfig.class).getConfig();
-
-
     }
 }
