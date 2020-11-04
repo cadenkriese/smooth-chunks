@@ -2,5 +2,6 @@
   "text.autoconfig.smooth-chunks.title": "Smooth Chunks Config",
   "text.autoconfig.smooth-chunks.option.loadAnimation": "Load Animation",
   "text.autoconfig.smooth-chunks.option.duration": "Duration",
+  "text.autoconfig.smooth-chunks.option.translationAmount": "Translation Amount",
   "text.autoconfig.smooth-chunks.option.disableNearby": "Disable for Nearby Chunks"
 }

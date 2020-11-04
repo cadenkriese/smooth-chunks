@@ -1,16 +1,23 @@
 package cc.flogi.dev.smoothchunks.client.handler;
 
+import cc.flogi.dev.smoothchunks.client.SmoothChunksClient;
 import cc.flogi.dev.smoothchunks.client.config.LoadAnimation;
 import cc.flogi.dev.smoothchunks.client.config.SmoothChunksConfig;
+import cc.flogi.dev.smoothchunks.util.UtilEasing;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.chunk.ChunkBuilder;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3i;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.WeakHashMap;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Caden Kriese (flogic)
@@ -18,54 +25,88 @@ import java.util.WeakHashMap;
  * Created on 09/27/2020
  */
 public final class ChunkAnimationHandler {
-    private final long DURATION;
-    private final LoadAnimation LOAD_ANIMATION;
-    private final boolean DISABLE_NEARBY;
+    /*TODO use Reference2ReferenceLinkedHashMap from FastUtil or just inject the AnimationController directly into BuiltChunk.
+     * Need to solve concurrency issue as currently #addChunk is called from both render & worker threads.
+     */
 
-    private final WeakHashMap<ChunkBuilder.BuiltChunk, AnimationController> animations = new WeakHashMap<>();
-    private final List<BlockPos> completedChunks = new ArrayList<>();
+    private static final ChunkAnimationHandler instance = new ChunkAnimationHandler();
+    private final Map<ChunkBuilder.BuiltChunk, AnimationController> animations = new HashMap<>();
+    @Getter private final Set<Vec3i> loadedChunks = new HashSet<>();
 
-    public ChunkAnimationHandler(SmoothChunksConfig config) {
-        DURATION = config.getDuration() * 1000;
-        LOAD_ANIMATION = config.getLoadAnimation();
-        DISABLE_NEARBY = config.isDisableNearby();
+    public static ChunkAnimationHandler get() {
+        return instance;
     }
 
-    public void update(ChunkBuilder.BuiltChunk chunk, MatrixStack stack) {
-        if (completedChunks.contains(chunk.getOrigin())) return;
+    public void addChunk(ChunkBuilder.BuiltChunk chunk) {
+        Vec3i origin = chunk.getOrigin();
+        if (loadedChunks.contains(origin)) return;
+        loadedChunks.add(origin);
+
+        Direction direction = null;
+
+        if (SmoothChunksClient.get().getConfig().getLoadAnimation() == LoadAnimation.INWARD
+                && MinecraftClient.getInstance().getCameraEntity() != null) {
+            BlockPos delta = chunk.getOrigin().subtract(MinecraftClient.getInstance().getCameraEntity().getBlockPos());
+
+            int dX = Math.abs(delta.getX());
+            int dZ = Math.abs(delta.getZ());
+
+            if (dX > dZ) {
+                if (delta.getX() > 0) direction = Direction.WEST;
+                else direction = Direction.EAST;
+            } else {
+                if (delta.getZ() > 0) direction = Direction.NORTH;
+                else direction = Direction.SOUTH;
+            }
+        }
+
+        animations.putIfAbsent(chunk, new AnimationController(chunk.getOrigin(), direction, System.currentTimeMillis()));
+    }
+
+    public void updateChunk(ChunkBuilder.BuiltChunk chunk, MatrixStack stack) {
+        SmoothChunksConfig config = SmoothChunksClient.get().getConfig();
 
         AnimationController controller = animations.get(chunk);
+        if (controller == null || MinecraftClient.getInstance().getCameraEntity() == null) return;
 
-        if (controller == null) {
-            controller = new AnimationController(chunk.getOrigin(), System.currentTimeMillis());
-            animations.put(chunk, controller);
+        BlockPos finalPos = controller.getFinalPos();
+
+        if (config.isDisableNearby()) {
+            double dX = finalPos.getX() - MinecraftClient.getInstance().getCameraEntity().getPos().getX();
+            double dZ = finalPos.getZ() - MinecraftClient.getInstance().getCameraEntity().getPos().getZ();
+            if (dX * dX + dZ * dZ < 32 * 32) return;
         }
 
-        double completion = (double) (System.currentTimeMillis() - controller.getStartTime()) / DURATION;
-        completion = Math.min(completion, 1.0);
+        double completion = (double) (System.currentTimeMillis() - controller.getStartTime()) / config.getDuration() / 1000d;
+        completion = UtilEasing.easeOutSine(Math.min(completion, 1.0));
 
-        switch (LOAD_ANIMATION) {
+        switch (config.getLoadAnimation()) {
             default:
-            case UPWARD:
-                stack.translate(0, (1 - completion) * controller.getFinalPos().getY(), 0);
-                break;
             case DOWNWARD:
-                stack.translate(0, -(1 - completion) * controller.getFinalPos().getY(), 0);
+                stack.translate(0, (finalPos.getY() - completion * finalPos.getY()) * config.getTranslationAmount(), 0);
                 break;
-//            case INWARD:
-//                stack.translate(0, (1 - completion) * controller.getFinalPos().getY(), 0);
-//                break;
+            case UPWARD:
+                stack.translate(0, (-finalPos.getY() + completion * finalPos.getY()) * config.getTranslationAmount(), 0);
+                break;
+            case INWARD:
+                if (controller.getDirection() == null) break;
+                Vec3i dirVec = controller.getDirection().getVector();
+                double mod = -(200 - UtilEasing.easeInOutSine(completion) * 200) * config.getTranslationAmount();
+                stack.translate(dirVec.getX() * mod, 0, dirVec.getZ() * mod);
+                break;
+            case SCALE:
+                //TODO Find a way to scale centered at the middle of the chunk rather than the origin.
+                stack.scale((float) completion, (float) completion, (float) completion);
+                break;
         }
 
-        if (completion >= 1.0) {
-            completedChunks.add(chunk.getOrigin());
-            animations.remove(chunk);
-        }
+        if (completion >= 1.0) animations.remove(chunk);
     }
 
     @AllArgsConstructor @Data
     private static class AnimationController {
         private BlockPos finalPos;
+        private Direction direction;
         private long startTime;
     }
 }
