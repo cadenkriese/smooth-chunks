@@ -1,0 +1,7 @@
+{
+  "text.autoconfig.smooth-chunks.title": "平滑区块加载配置（Smooth Chunk）",
+  "text.autoconfig.smooth-chunks.option.loadAnimation": "区块加载动画",
+  "text.autoconfig.smooth-chunks.option.duration": "动画持续时间",
+  "text.autoconfig.smooth-chunks.option.translationAmount": "转换幅度",
+  "text.autoconfig.smooth-chunks.option.disableNearby": "禁用邻近区块动画"
+}
