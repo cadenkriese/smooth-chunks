@@ -15,9 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -38,6 +36,11 @@ public final class ChunkAnimationHandler {
         return instance;
     }
 
+    /**
+     * Adds a chunk to the animation handler, the chunk will be animated over the next few frames.
+     *
+     * @param chunk The BuiltChunk to animate.
+     */
     public void addChunk(ChunkBuilder.BuiltChunk chunk) {
         Vec3i origin = chunk.getOrigin();
         if (loadedChunks.contains(origin)) return;
@@ -64,6 +67,12 @@ public final class ChunkAnimationHandler {
         animations.putIfAbsent(chunk, new AnimationController(chunk.getOrigin(), direction, System.currentTimeMillis()));
     }
 
+    /**
+     * Called every frame, updates the animation progress of the given chunk.
+     *
+     * @param chunk The chunk to be updated.
+     * @param stack The stack to have translations & scale calls pushed onto it.
+     */
     public void updateChunk(ChunkBuilder.BuiltChunk chunk, MatrixStack stack) {
         SmoothChunksConfig config = SmoothChunksClient.get().getConfig();
 
