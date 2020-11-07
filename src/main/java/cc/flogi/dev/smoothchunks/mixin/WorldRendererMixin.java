@@ -1,6 +1,6 @@
 package cc.flogi.dev.smoothchunks.mixin;
 
-import cc.flogi.dev.smoothchunks.client.handler.ChunkAnimationHandler;
+import cc.flogi.dev.smoothchunks.handler.ChunkAnimationHandler;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;
 import net.minecraft.client.gl.VertexBuffer;
 import net.minecraft.client.render.RenderLayer;

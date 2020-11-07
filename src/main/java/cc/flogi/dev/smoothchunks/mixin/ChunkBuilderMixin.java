@@ -1,6 +1,6 @@
 package cc.flogi.dev.smoothchunks.mixin;
 
-import cc.flogi.dev.smoothchunks.client.handler.ChunkAnimationHandler;
+import cc.flogi.dev.smoothchunks.handler.ChunkAnimationHandler;
 import net.minecraft.client.render.chunk.BlockBufferBuilderStorage;
 import net.minecraft.client.render.chunk.ChunkBuilder;
 import org.spongepowered.asm.mixin.Mixin;

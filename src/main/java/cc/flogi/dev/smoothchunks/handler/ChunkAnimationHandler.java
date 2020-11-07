@@ -1,8 +1,8 @@
-package cc.flogi.dev.smoothchunks.client.handler;
+package cc.flogi.dev.smoothchunks.handler;
 
-import cc.flogi.dev.smoothchunks.client.SmoothChunksClient;
-import cc.flogi.dev.smoothchunks.client.config.LoadAnimation;
-import cc.flogi.dev.smoothchunks.client.config.SmoothChunksConfig;
+import cc.flogi.dev.smoothchunks.SmoothChunks;
+import cc.flogi.dev.smoothchunks.config.LoadAnimation;
+import cc.flogi.dev.smoothchunks.config.SmoothChunksConfig;
 import cc.flogi.dev.smoothchunks.util.UtilEasing;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import lombok.AllArgsConstructor;
@@ -24,10 +24,6 @@ import java.util.Set;
  * Created on 09/27/2020
  */
 public final class ChunkAnimationHandler {
-    /*TODO use Reference2ReferenceLinkedHashMap from FastUtil or just inject the AnimationController directly into BuiltChunk.
-     * Need to solve concurrency issue as currently #addChunk is called from both render & worker threads.
-     */
-
     private static final ChunkAnimationHandler instance = new ChunkAnimationHandler();
     private final Reference2ReferenceOpenHashMap<ChunkBuilder.BuiltChunk, AnimationController> animations = new Reference2ReferenceOpenHashMap<>();
     @Getter private final Set<Vec3i> loadedChunks = new HashSet<>();
@@ -48,7 +44,7 @@ public final class ChunkAnimationHandler {
 
         Direction direction = null;
 
-        if (SmoothChunksClient.get().getConfig().getLoadAnimation() == LoadAnimation.INWARD
+        if (SmoothChunks.get().getConfig().getLoadAnimation() == LoadAnimation.INWARD
                 && MinecraftClient.getInstance().getCameraEntity() != null) {
             BlockPos delta = chunk.getOrigin().subtract(MinecraftClient.getInstance().getCameraEntity().getBlockPos());
 
@@ -74,7 +70,7 @@ public final class ChunkAnimationHandler {
      * @param stack The stack to have translations & scale calls pushed onto it.
      */
     public void updateChunk(ChunkBuilder.BuiltChunk chunk, MatrixStack stack) {
-        SmoothChunksConfig config = SmoothChunksClient.get().getConfig();
+        SmoothChunksConfig config = SmoothChunks.get().getConfig();
 
         AnimationController controller = animations.get(chunk);
         if (controller == null || MinecraftClient.getInstance().getCameraEntity() == null) return;

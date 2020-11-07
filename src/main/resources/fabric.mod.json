@@ -18,10 +18,10 @@
   "modmenu:clientsideOnly": "true",
   "entrypoints": {
     "modmenu": [
-      "cc.flogi.dev.smoothchunks.client.config.SmoothChunksModMenu"
+      "cc.flogi.dev.smoothchunks.config.SmoothChunksModMenu"
     ],
     "client": [
-      "cc.flogi.dev.smoothchunks.client.SmoothChunksClient"
+      "cc.flogi.dev.smoothchunks.SmoothChunks"
     ],
     "main": [
       "cc.flogi.dev.smoothchunks.SmoothChunks"
