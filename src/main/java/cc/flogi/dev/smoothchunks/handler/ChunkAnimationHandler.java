@@ -64,7 +64,7 @@ public final class ChunkAnimationHandler {
     }
 
     /**
-     * Called every frame, updates the animation progress of the given chunk.
+     * Called for each chunk every frame, updates the animation progress of the given chunk.
      *
      * @param chunk The chunk to be updated.
      * @param stack The stack to have translations & scale calls pushed onto it.

@@ -1,9 +1,9 @@
 <p align="center">
 <a href="https://github.com/fl0gic/smooth-chunks/blob/master/LICENSE"><img src="https://img.shields.io/github/license/fl0gic/smooth-chunks?style=for-the-badge"></a>
-<img src="https://img.shields.io/github/v/tag/fl0gic/smooth-chunks?include_prereleases&label=version&style=for-the-badge">
-<img src="https://img.shields.io/github/workflow/status/fl0gic/smooth-chunks/gradle-build?style=for-the-badge">
-<img src="https://cf.way2muchnoise.eu/full_smooth-chunks_downloads.svg?badge_style=for_the_badge">
-<img src="https://cf.way2muchnoise.eu/versions/smooth-chunks_latest.svg?badge_style=for_the_badge">
+<a href="https://github.com/fl0gic/smooth-chunks/releases"><img src="https://img.shields.io/github/v/tag/fl0gic/smooth-chunks?include_prereleases&label=version&style=for-the-badge"></a>
+<a href="https://github.com/fl0gic/smooth-chunks/actions"><img src="https://img.shields.io/github/workflow/status/fl0gic/smooth-chunks/gradle-build?style=for-the-badge"></a>
+<a href="https://www.curseforge.com/minecraft/mc-mods/smooth-chunks"><img src="https://cf.way2muchnoise.eu/full_smooth-chunks_downloads.svg?badge_style=for_the_badge"></a>
+<a href="https://www.curseforge.com/minecraft/mc-mods/smooth-chunks"><img src="https://cf.way2muchnoise.eu/versions/smooth-chunks_latest.svg?badge_style=for_the_badge"></a>
 <a href="https://fabricmc.net"><img src="https://img.shields.io/badge/modloader-fabric-blue?style=for-the-badge"></a>
 </p>
 
