@@ -34,9 +34,19 @@
     "fabric": "*",
     "minecraft": ">=1.16.2"
   },
+  "recommends": {
+    "modmenu": ">= 1.14.0"
+  },
   "breaks": {
+    "modmenu": "<1.14.0",
     "optifabric":  "*",
     "canvas":  "*",
     "sodium": "*"
+  },
+  "custom": {
+    "modupdater": {
+      "strategy": "curseforge",
+      "projectID": 415285
+    }
   }
 }

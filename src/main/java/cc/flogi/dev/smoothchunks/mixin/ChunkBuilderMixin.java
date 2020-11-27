@@ -21,7 +21,7 @@ public abstract class ChunkBuilderMixin {
             method = "scheduleRunTasks",
             at = @At(value = "INVOKE",
                      args = "log=true",
-                     id = "Ljava/util/concurrent/CompletableFuture;runAsync(Ljava/lang/Runnable;Ljava/util/concurrent/Executor;)Ljava/util/concurrent/CompletableFuture;"),
+                     target = "Ljava/util/concurrent/CompletableFuture;runAsync(Ljava/lang/Runnable;Ljava/util/concurrent/Executor;)Ljava/util/concurrent/CompletableFuture;"),
             locals = LocalCapture.CAPTURE_FAILHARD
     )
     public void onRunTasks(CallbackInfo ci, ChunkBuilder.BuiltChunk.Task task, BlockBufferBuilderStorage blockBufferBuilderStorage) {
