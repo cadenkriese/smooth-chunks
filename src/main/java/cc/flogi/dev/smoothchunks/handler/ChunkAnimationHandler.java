@@ -1,9 +1,10 @@
-package cc.flogi.dev.smoothchunks.client.handler;
+package cc.flogi.dev.smoothchunks.handler;
 
-import cc.flogi.dev.smoothchunks.client.SmoothChunksClient;
-import cc.flogi.dev.smoothchunks.client.config.LoadAnimation;
-import cc.flogi.dev.smoothchunks.client.config.SmoothChunksConfig;
+import cc.flogi.dev.smoothchunks.SmoothChunks;
+import cc.flogi.dev.smoothchunks.config.LoadAnimation;
+import cc.flogi.dev.smoothchunks.config.SmoothChunksConfig;
 import cc.flogi.dev.smoothchunks.util.UtilEasing;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -14,9 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -25,18 +24,19 @@ import java.util.Set;
  * Created on 09/27/2020
  */
 public final class ChunkAnimationHandler {
-    /*TODO use Reference2ReferenceLinkedHashMap from FastUtil or just inject the AnimationController directly into BuiltChunk.
-     * Need to solve concurrency issue as currently #addChunk is called from both render & worker threads.
-     */
-
     private static final ChunkAnimationHandler instance = new ChunkAnimationHandler();
-    private final Map<ChunkBuilder.BuiltChunk, AnimationController> animations = new HashMap<>();
+    private final Reference2ReferenceOpenHashMap<ChunkBuilder.BuiltChunk, AnimationController> animations = new Reference2ReferenceOpenHashMap<>();
     @Getter private final Set<Vec3i> loadedChunks = new HashSet<>();
 
     public static ChunkAnimationHandler get() {
         return instance;
     }
 
+    /**
+     * Adds a chunk to the animation handler, the chunk will be animated over the next few frames.
+     *
+     * @param chunk The BuiltChunk to animate.
+     */
     public void addChunk(ChunkBuilder.BuiltChunk chunk) {
         Vec3i origin = chunk.getOrigin();
         if (loadedChunks.contains(origin)) return;
@@ -44,7 +44,7 @@ public final class ChunkAnimationHandler {
 
         Direction direction = null;
 
-        if (SmoothChunksClient.get().getConfig().getLoadAnimation() == LoadAnimation.INWARD
+        if (SmoothChunks.get().getConfig().getLoadAnimation() == LoadAnimation.INWARD
                 && MinecraftClient.getInstance().getCameraEntity() != null) {
             BlockPos delta = chunk.getOrigin().subtract(MinecraftClient.getInstance().getCameraEntity().getBlockPos());
 
@@ -63,8 +63,14 @@ public final class ChunkAnimationHandler {
         animations.putIfAbsent(chunk, new AnimationController(chunk.getOrigin(), direction, System.currentTimeMillis()));
     }
 
+    /**
+     * Called for each chunk every frame, updates the animation progress of the given chunk.
+     *
+     * @param chunk The chunk to be updated.
+     * @param stack The stack to have translations & scale calls pushed onto it.
+     */
     public void updateChunk(ChunkBuilder.BuiltChunk chunk, MatrixStack stack) {
-        SmoothChunksConfig config = SmoothChunksClient.get().getConfig();
+        SmoothChunksConfig config = SmoothChunks.get().getConfig();
 
         AnimationController controller = animations.get(chunk);
         if (controller == null || MinecraftClient.getInstance().getCameraEntity() == null) return;

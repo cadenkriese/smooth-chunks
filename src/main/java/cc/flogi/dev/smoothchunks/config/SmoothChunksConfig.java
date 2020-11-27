@@ -1,4 +1,4 @@
-package cc.flogi.dev.smoothchunks.client.config;
+package cc.flogi.dev.smoothchunks.config;
 
 import lombok.Getter;
 import me.sargunvohra.mcmods.autoconfig1u.ConfigData;

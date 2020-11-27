@@ -3,10 +3,10 @@
   "minVersion": "0.8",
   "package": "cc.flogi.dev.smoothchunks.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [],
-  "client": [
+  "mixins": [
     "BuiltChunkMixin",
-    "RebuildTaskMixin",
+    "BuiltChunkTaskMixin",
+    "ChunkBuilderMixin",
     "WorldRendererMixin"
   ],
   "injectors": {

@@ -8,8 +8,9 @@
     "flogic"
   ],
   "contact": {
-    "website": "flogi.cc",
-    "repo": "repo.flogi.cc"
+    "homepage": "https://flogi.cc",
+    "sources": "https://github.com/fl0gic/smooth-chunks",
+    "issues": "https://github.com/fl0gic/smooth-chunks/issues"
   },
   "license": "MIT",
   "icon": "assets/smooth-chunks/icon.png",
@@ -17,15 +18,13 @@
   "accessWidener": "smooth-chunks.accesswidener",
   "modmenu:clientsideOnly": "true",
   "entrypoints": {
-    "modmenu": [
-      "cc.flogi.dev.smoothchunks.client.config.SmoothChunksModMenu"
-    ],
     "client": [
-      "cc.flogi.dev.smoothchunks.client.SmoothChunksClient"
-    ],
-    "main": [
-      "cc.flogi.dev.smoothchunks.SmoothChunks"
+    "cc.flogi.dev.smoothchunks.SmoothChunks"
+   ],
+    "modmenu": [
+      "cc.flogi.dev.smoothchunks.config.SmoothChunksModMenu"
     ]
+
   },
   "mixins": [
     "smooth-chunks.mixins.json"
@@ -34,5 +33,20 @@
     "fabricloader": ">=0.9.3+build.207",
     "fabric": "*",
     "minecraft": ">=1.16.2"
+  },
+  "recommends": {
+    "modmenu": ">= 1.14.0"
+  },
+  "breaks": {
+    "modmenu": "<1.14.0",
+    "optifabric":  "*",
+    "canvas":  "*",
+    "sodium": "*"
+  },
+  "custom": {
+    "modupdater": {
+      "strategy": "curseforge",
+      "projectID": 415285
+    }
   }
 }
