@@ -3,20 +3,19 @@
   "id": "smooth-chunks",
   "version": "${version}",
   "name": "Smooth Chunks",
-  "description": "Smooth chunk load animations.",
+  "description": "Adds smooth chunk loading animations.",
   "authors": [
     "flogic"
   ],
   "contact": {
     "homepage": "https://flogi.cc",
-    "sources": "https://github.com/fl0gic/smooth-chunks",
-    "issues": "https://github.com/fl0gic/smooth-chunks/issues"
+    "sources": "https://github.com/cadenkriese/smooth-chunks",
+    "issues": "https://github.com/cadenkriese/smooth-chunks/issues"
   },
   "license": "MIT",
-  "icon": "assets/smooth-chunks/icon.png",
+  "icon": "assets/smooth-chunks/icon.jpg",
   "environment": "client",
   "accessWidener": "smooth-chunks.accesswidener",
-  "modmenu:clientsideOnly": "true",
   "entrypoints": {
     "client": [
     "cc.flogi.dev.smoothchunks.SmoothChunks"
@@ -24,24 +23,23 @@
     "modmenu": [
       "cc.flogi.dev.smoothchunks.config.SmoothChunksModMenu"
     ]
-
   },
   "mixins": [
     "smooth-chunks.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.9.3+build.207",
+    "fabricloader": ">=0.11.3",
     "fabric": "*",
-    "minecraft": ">=1.16.2"
+    "minecraft": "1.17.x",
+    "java": ">=16"
   },
   "recommends": {
-    "modmenu": ">= 1.14.0"
+    "modmenu": "*",
+    "sodium": "*"
   },
   "breaks": {
-    "modmenu": "<1.14.0",
     "optifabric":  "*",
-    "canvas":  "*",
-    "sodium": "*"
+    "canvas":  "*"
   },
   "custom": {
     "modupdater": {

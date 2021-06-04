@@ -1,4 +1,4 @@
-package cc.flogi.dev.smoothchunks.mixin;
+package cc.flogi.dev.smoothchunks.mixin.vanilla;
 
 import cc.flogi.dev.smoothchunks.handler.ChunkAnimationHandler;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;
@@ -30,6 +30,6 @@ public abstract class WorldRendererMixin {
     private void renderLayerInject(RenderLayer renderLayer, MatrixStack matrixStack, double d, double e, double f,
                                    CallbackInfo ci, boolean bl, ObjectListIterator objectListIterator,
                                    WorldRenderer.ChunkInfo chunkInfo2, ChunkBuilder.BuiltChunk builtChunk, VertexBuffer vertexBuffer) {
-        ChunkAnimationHandler.get().updateChunk(builtChunk, matrixStack);
+        ChunkAnimationHandler.get().updateChunk(builtChunk.getOrigin(), matrixStack);
     }
 }

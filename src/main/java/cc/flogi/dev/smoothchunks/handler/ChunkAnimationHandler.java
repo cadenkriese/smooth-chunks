@@ -4,19 +4,14 @@ import cc.flogi.dev.smoothchunks.SmoothChunks;
 import cc.flogi.dev.smoothchunks.config.LoadAnimation;
 import cc.flogi.dev.smoothchunks.config.SmoothChunksConfig;
 import cc.flogi.dev.smoothchunks.util.UtilEasing;
-import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.chunk.ChunkBuilder;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Caden Kriese (flogic)
@@ -25,8 +20,7 @@ import java.util.Set;
  */
 public final class ChunkAnimationHandler {
     private static final ChunkAnimationHandler instance = new ChunkAnimationHandler();
-    private final Reference2ReferenceOpenHashMap<ChunkBuilder.BuiltChunk, AnimationController> animations = new Reference2ReferenceOpenHashMap<>();
-    @Getter private final Set<Vec3i> loadedChunks = new HashSet<>();
+    private final Object2ObjectOpenHashMap<Vec3i, AnimationController> animations = new Object2ObjectOpenHashMap<>();
 
     public static ChunkAnimationHandler get() {
         return instance;
@@ -35,18 +29,16 @@ public final class ChunkAnimationHandler {
     /**
      * Adds a chunk to the animation handler, the chunk will be animated over the next few frames.
      *
-     * @param chunk The BuiltChunk to animate.
+     * @param position The position of the chunk to animate.
      */
-    public void addChunk(ChunkBuilder.BuiltChunk chunk) {
-        Vec3i origin = chunk.getOrigin();
-        if (loadedChunks.contains(origin)) return;
-        loadedChunks.add(origin);
+    public void addChunk(BlockPos position) {
+        if (animations.containsKey(position)) return;
 
         Direction direction = null;
 
         if (SmoothChunks.get().getConfig().getLoadAnimation() == LoadAnimation.INWARD
                 && MinecraftClient.getInstance().getCameraEntity() != null) {
-            BlockPos delta = chunk.getOrigin().subtract(MinecraftClient.getInstance().getCameraEntity().getBlockPos());
+            Vec3i delta = position.subtract(MinecraftClient.getInstance().getCameraEntity().getBlockPos());
 
             int dX = Math.abs(delta.getX());
             int dZ = Math.abs(delta.getZ());
@@ -60,26 +52,24 @@ public final class ChunkAnimationHandler {
             }
         }
 
-        animations.putIfAbsent(chunk, new AnimationController(chunk.getOrigin(), direction, System.currentTimeMillis()));
+        animations.putIfAbsent(position, new AnimationController(direction, System.currentTimeMillis()));
     }
 
     /**
      * Called for each chunk every frame, updates the animation progress of the given chunk.
      *
-     * @param chunk The chunk to be updated.
-     * @param stack The stack to have translations & scale calls pushed onto it.
+     * @param chunkPos The position of the chunk to be updated.
+     * @param stack    The stack to have translations & scale calls pushed onto it.
      */
-    public void updateChunk(ChunkBuilder.BuiltChunk chunk, MatrixStack stack) {
+    public void updateChunk(Vec3i chunkPos, MatrixStack stack) {
         SmoothChunksConfig config = SmoothChunks.get().getConfig();
 
-        AnimationController controller = animations.get(chunk);
+        AnimationController controller = animations.get(chunkPos);
         if (controller == null || MinecraftClient.getInstance().getCameraEntity() == null) return;
 
-        BlockPos finalPos = controller.getFinalPos();
-
         if (config.isDisableNearby()) {
-            double dX = finalPos.getX() - MinecraftClient.getInstance().getCameraEntity().getPos().getX();
-            double dZ = finalPos.getZ() - MinecraftClient.getInstance().getCameraEntity().getPos().getZ();
+            double dX = chunkPos.getX() - MinecraftClient.getInstance().getCameraEntity().getPos().getX();
+            double dZ = chunkPos.getZ() - MinecraftClient.getInstance().getCameraEntity().getPos().getZ();
             if (dX * dX + dZ * dZ < 32 * 32) return;
         }
 
@@ -89,10 +79,10 @@ public final class ChunkAnimationHandler {
         switch (config.getLoadAnimation()) {
             default:
             case DOWNWARD:
-                stack.translate(0, (finalPos.getY() - completion * finalPos.getY()) * config.getTranslationAmount(), 0);
+                stack.translate(0, (chunkPos.getY() - completion * chunkPos.getY()) * config.getTranslationAmount(), 0);
                 break;
             case UPWARD:
-                stack.translate(0, (-finalPos.getY() + completion * finalPos.getY()) * config.getTranslationAmount(), 0);
+                stack.translate(0, (-chunkPos.getY() + completion * chunkPos.getY()) * config.getTranslationAmount(), 0);
                 break;
             case INWARD:
                 if (controller.getDirection() == null) break;
@@ -106,12 +96,16 @@ public final class ChunkAnimationHandler {
                 break;
         }
 
-        if (completion >= 1.0) animations.remove(chunk);
+        if (completion >= 1.0) animations.remove(chunkPos);
+    }
+
+    //TODO consider calling this on F3+A or any world reloads to quickly empty the animations map.
+    public void clearAnimations() {
+        animations.clear();
     }
 
     @AllArgsConstructor @Data
     private static class AnimationController {
-        private BlockPos finalPos;
         private Direction direction;
         private long startTime;
     }

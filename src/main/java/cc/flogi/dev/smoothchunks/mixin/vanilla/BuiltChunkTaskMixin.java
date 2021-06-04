@@ -1,4 +1,4 @@
-package cc.flogi.dev.smoothchunks.mixin;
+package cc.flogi.dev.smoothchunks.mixin.vanilla;
 
 import cc.flogi.dev.smoothchunks.access.BuiltChunkTaskAccess;
 import net.minecraft.client.render.chunk.ChunkBuilder;

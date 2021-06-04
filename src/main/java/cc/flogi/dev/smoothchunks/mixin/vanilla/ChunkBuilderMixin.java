@@ -1,4 +1,4 @@
-package cc.flogi.dev.smoothchunks.mixin;
+package cc.flogi.dev.smoothchunks.mixin.vanilla;
 
 import cc.flogi.dev.smoothchunks.access.BuiltChunkTaskAccess;
 import cc.flogi.dev.smoothchunks.handler.ChunkAnimationHandler;
@@ -20,11 +20,10 @@ public abstract class ChunkBuilderMixin {
     @Inject(
             method = "scheduleRunTasks",
             at = @At(value = "INVOKE",
-                     args = "log=true",
                      target = "Ljava/util/concurrent/CompletableFuture;runAsync(Ljava/lang/Runnable;Ljava/util/concurrent/Executor;)Ljava/util/concurrent/CompletableFuture;"),
             locals = LocalCapture.CAPTURE_FAILHARD
     )
     public void onRunTasks(CallbackInfo ci, ChunkBuilder.BuiltChunk.Task task, BlockBufferBuilderStorage blockBufferBuilderStorage) {
-        ChunkAnimationHandler.get().addChunk(((BuiltChunkTaskAccess) task).getParentClass());
+        ChunkAnimationHandler.get().addChunk(((BuiltChunkTaskAccess) task).getParentClass().getOrigin());
     }
 }

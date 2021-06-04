@@ -13,7 +13,8 @@ import net.fabricmc.api.Environment;
  *
  * Created on 09/21/2020
  */
-@Environment(EnvType.CLIENT) public class SmoothChunks implements ClientModInitializer {
+@Environment(EnvType.CLIENT)
+public class SmoothChunks implements ClientModInitializer {
     private static SmoothChunks instance;
     @Getter private SmoothChunksConfig config;
 

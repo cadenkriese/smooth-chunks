@@ -119,3 +119,6 @@ run/
 src/main/generated/
 src/test/
 remappedSrc/
+
+# Apple Silicon LWJGL Natives
+lwjgl-natives/

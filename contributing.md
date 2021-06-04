@@ -10,12 +10,12 @@ attach these as a file (preferred) or host them on a service such as [GitHub Gis
 
 ## Pull Requests
 
-It's super awesome to hear you're wishing to contribute to the project! Before you open a pull request, you'll need to
+It's super awesome to hear you wish to contribute to the project! Before you open a pull request, you'll need to
 give a quick read to the following guidelines.
 
 ### Contributor License Agreement (CLA)
 
-By submitting changes to this repository, you are hereby agreeing that:
+By submitting changes to this repository, you hereby agree that:
 
 - Your contributions will be licensed irrecoverably under the [MIT License](https://mit-license.org).
 - Your contributions are of your own work and free of legal restrictions (such as patents and copyrights) or other
@@ -26,9 +26,7 @@ If you do not agree to these terms, please do not submit contributions to this r
 ### Code Style
 
 When contributing source code changes to the project, ensure that you make consistent use of the code style guidelines
-used throughout the codebase (which follow pretty closely after the standard Java code style guidelines). These guidelines
-have also been packaged as EditorConfig and IDEA inspection profiles which can be found in the repository root and `idea`
-directory respectively.
+used throughout the codebase (which follow pretty closely after the standard Java code style guidelines). 
 
 - Use 4 spaces for indentation, not tabs. Avoid lines which exceed 120 characters.
 - Use `this` to qualify member and field access.
