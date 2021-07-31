@@ -1,41 +1,40 @@
 # TODO update to latest
-on: []
 
-#name: 'publish-release'
-#
-#on:
-#  release:
-#    types: [published]
-#
-#jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout sources
-#        uses: actions/checkout@v2
-#      - name: Set up JDK 8
-#        uses: actions/setup-java@v1
+name: 'publish-release'
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - name: Set up JDK 8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build project & deploy to CurseForge
+        run: ./gradlew build
+        env:
+          BUILD_RELEASE: ${{ github.event.prerelease == false }}
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+      - name: Upload assets to GitHub
+        uses: AButler/upload-release-assets@v2.0
+        with:
+          files: 'build/libs/*;LICENSE'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Upload assets to CurseForge
+#        uses: itsmeow/curseforge-upload@v2
 #        with:
-#          java-version: 8
-#      - name: Grant execute permission for gradlew
-#        run: chmod +x gradlew
-#      - name: Build project & deploy to CurseForge
-#        run: ./gradlew build
-#        env:
-#          BUILD_RELEASE: ${{ github.event.prerelease == false }}
-#          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
-#      - name: Upload assets to GitHub
-#        uses: AButler/upload-release-assets@v2.0
-#        with:
-#          files: 'build/libs/*;LICENSE'
-#          repo-token: ${{ secrets.GITHUB_TOKEN }}
-##      - name: Upload assets to CurseForge
-##        uses: itsmeow/curseforge-upload@v2
-##        with:
-##          token: ${{ secrets.CURSEFORGE_TOKEN }}
-##          project_id: 415285
-##          game_endpoint: minecraft
-##          file_path: build/libs/
-##          changelog: Test changelog message!
-##          game_versions:
-##          release_type: ${{ github.event.prerelease == false }}
+#          token: ${{ secrets.CURSEFORGE_TOKEN }}
+#          project_id: 415285
+#          game_endpoint: minecraft
+#          file_path: build/libs/
+#          changelog: Test changelog message!
+#          game_versions:
+#          release_type: ${{ github.event.prerelease == false }}

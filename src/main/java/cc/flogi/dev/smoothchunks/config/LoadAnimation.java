@@ -9,5 +9,6 @@ public enum LoadAnimation {
     DOWNWARD,
     UPWARD,
     INWARD,
-    SCALE
+    SCALE,
+    FADE
 }

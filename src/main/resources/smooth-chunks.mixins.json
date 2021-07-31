@@ -3,11 +3,9 @@
   "minVersion": "0.8",
   "package": "cc.flogi.dev.smoothchunks.mixin",
   "compatibilityLevel": "JAVA_16",
-  "plugin": "cc.flogi.dev.smoothchunks.mixin.SmoothChunksMixinPlugin",
   "mixins": [
-    "vanilla.BuiltChunkTaskMixin",
-    "vanilla.ChunkBuilderMixin",
-    "vanilla.WorldRendererMixin"
+    "MixinShader",
+    "MixinWoldRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

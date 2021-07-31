@@ -1,17 +1,16 @@
 package cc.flogi.dev.smoothchunks.config;
 
-import lombok.Getter;
-import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
-import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
-import me.sargunvohra.mcmods.autoconfig1u.annotation.ConfigEntry;
-import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.Comment;
+import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.annotation.Config;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 
 /**
  * @author Caden Kriese (flogic)
  *
  * Created on 09/28/2020
  */
-@Config(name = "smooth-chunks") @Config.Gui.Background("minecraft:textures/block/stone.png") @Getter
+@Config(name = "smooth-chunks") @Config.Gui.Background("minecraft:textures/block/stone.png")
 public class SmoothChunksConfig implements ConfigData {
     //TODO use localization for comment strings. (Somehow, not super straightforward bc annotations need const value)
     @Comment("Duration of the animation in seconds.")

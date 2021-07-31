@@ -13,13 +13,12 @@
     "issues": "https://github.com/cadenkriese/smooth-chunks/issues"
   },
   "license": "MIT",
-  "icon": "assets/smooth-chunks/icon.jpg",
+  "icon": "assets/icon.jpg",
   "environment": "client",
-  "accessWidener": "smooth-chunks.accesswidener",
   "entrypoints": {
     "client": [
-    "cc.flogi.dev.smoothchunks.SmoothChunks"
-   ],
+      "cc.flogi.dev.smoothchunks.SmoothChunks"
+    ],
     "modmenu": [
       "cc.flogi.dev.smoothchunks.config.SmoothChunksModMenu"
     ]
@@ -28,18 +27,13 @@
     "smooth-chunks.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.11.3",
-    "fabric": "*",
+    "fabricloader": ">=0.11.0",
     "minecraft": "1.17.x",
     "java": ">=16"
   },
   "recommends": {
     "modmenu": "*",
     "sodium": "*"
-  },
-  "breaks": {
-    "optifabric":  "*",
-    "canvas":  "*"
   },
   "custom": {
     "modupdater": {

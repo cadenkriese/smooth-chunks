@@ -1,9 +1,8 @@
 package cc.flogi.dev.smoothchunks;
 
 import cc.flogi.dev.smoothchunks.config.SmoothChunksConfig;
-import lombok.Getter;
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.Toml4jConfigSerializer;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -16,7 +15,7 @@ import net.fabricmc.api.Environment;
 @Environment(EnvType.CLIENT)
 public class SmoothChunks implements ClientModInitializer {
     private static SmoothChunks instance;
-    @Getter private SmoothChunksConfig config;
+    private SmoothChunksConfig config;
 
     public static SmoothChunks get() {return instance;}
 

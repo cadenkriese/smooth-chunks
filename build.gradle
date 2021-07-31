@@ -1,13 +1,8 @@
 plugins {
-    id "fabric-loom" version "0.8-SNAPSHOT"
-    id "io.freefair.lombok" version "6.0.0-m2"
+    id "fabric-loom"
 }
 
 repositories {
-    maven {
-        name = "Jitpack"
-        url = "https://jitpack.io/"
-    }
     maven {
         name = "TerraformersMC"
         url = "https://maven.terraformersmc.com/"
@@ -29,46 +24,36 @@ def build_release = System.getenv("BUILD_RELEASE") == "true"
 if (!build_release)
     version += "-SNAPSHOT"
 
+// To change the versions see the gradle.properties file
 dependencies {
-    //to change the versions see the gradle.properties file
+    // Minecraft
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    // Fabric API.
-    //TODO try this approach to fabric api in the future to avoid unneeded modules.
-    // for some reason it asks for like fabric-biomes and stuff right now.
+    //Fabric
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
 //    Set<String> apiModules = [
-//            "fabric-api-base",
-//            "fabric-registry-sync-v0"
+//            "fabric-api-base"
 //    ]
 //
 //    // Add each module as a dependency
 //    apiModules.forEach {
-//        modImplementation(fabricApi.module(it, project.fabric_version))
+//        modImplementation fabricApi.module(it, project.fabric_version)
 //    }
 
-    // Fabric API.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    // Cloth Config / Autoconfig
+    // Cloth Config / Auto Config
     modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
-    }
-    modApi("me.sargunvohra.mcmods:autoconfig1u:${project.autoconfig_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
     // ModMenu
-    modApi("com.terraformersmc:modmenu:${project.modmenu_version}")
-
-    // Sodium
-//    modCompileOnly "com.github.jellysquid3:sodium-fabric:${project.sodium_version}"
-//    modRuntime "com.github.jellysquid3:sodium-fabric:${project.sodium_version}"
+    modApi "com.terraformersmc:modmenu:${project.modmenu_version}"
 }
 
 minecraft {
-    accessWidener "src/main/resources/$archivesBaseName" + ".accesswidener"
+//    accessWidener "src/main/resources/$archivesBaseName" + ".accesswidener"
 }
 
 processResources {
@@ -96,6 +81,6 @@ java {
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}"}
+        rename { "${it}_${project.archivesBaseName}" }
     }
 }
