@@ -1,3 +1,7 @@
+## Mojang Mappings Warning 
+
+This repository uses the official Minecraft code mappings provided by Mojang for development purposes.
+
 ## Issues
 
 When opening issues, please be sure to include the following information as applicable.

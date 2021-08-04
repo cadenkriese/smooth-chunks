@@ -4,6 +4,8 @@
   "package": "cc.flogi.dev.smoothchunks.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "BuiltChunkMixin",
+    "MixinChunkInfo",
     "MixinShader",
     "MixinWoldRenderer"
   ],
