@@ -6,7 +6,7 @@
 <p align="center">Chunk loading in Minecraft can be very jagged when they appear out of nowhere. With this mod, you can configure a nice animation for how chunks load in to your world.</p>
 
 <h1 align="center">Abandoned ⚠️</h1>
-I'm no longer maintaining this project. You can see why ![here](https://github.com/cadenkriese/smooth-chunks/issues/9#issuecomment-1345925713). A much better mod that does the same thing and more can be found ![here](https://modrinth.com/mod/chunks-fade-in). As a side note, be kind to developers and creators who do things for free :)
+I'm no longer maintaining this project. You can see why in my comment here, https://github.com/cadenkriese/smooth-chunks/issues/9#issuecomment-1345925713. A much better mod that does the same thing and more can be found here https://modrinth.com/mod/chunks-fade-in. As a side note, be kind to developers and creators who do things for free :)
 
 ## Animations
 
